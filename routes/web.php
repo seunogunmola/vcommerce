@@ -4,16 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VendorController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,11 +22,19 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+//MIDDLE WARE TO PREVENT USERS WITHOUT ADMIN ROLE
 Route::middleware(['auth','role:admin'])->group(
     function(){
         // ADMIN ROUTES 
-        Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
-        Route::get('/admin/logout',[AdminController::class,'destroy'])->name('admin.logout');
+        Route::controller(AdminController::class)->group(
+            function(){
+                Route::get('/admin/dashboard','dashboard')->name('admin.dashboard');
+                Route::get('/admin/logout','logout')->name('admin.logout');
+                // PROFILE 
+                Route::get('/admin/profile','profile')->name('admin.profile');
+                Route::post('/admin/profile','updateProfile')->name('admin.profile.update');
+            }
+        );
     }
 );
 

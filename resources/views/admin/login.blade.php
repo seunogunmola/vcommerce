@@ -23,7 +23,7 @@
         <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/css/icons.css') }}" rel="stylesheet">
-        <title>{{ env('APP_NAME') }}</title>
+        <title>{{ env('APP_NAME') }} - {{ $title }}</title>
     </head>
 
     <body class="bg-login">
@@ -91,6 +91,11 @@
                                                                 class="bx bxs-lock-open"></i>Sign in</button>
                                                     </div>
                                                 </div>
+                                                <hr>
+                                                <div class="text-center">
+                                                    <p>{{ env('APP_NAME') .' '. env('APP_VERSION') }}</p>
+                                                </div>
+                                                
                                             </form>
                                         </div>
                                     </div>
