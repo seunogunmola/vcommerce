@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
+        
         #HACK FOR DIFFERENT USER REDIRECTS
         $url = "/dashboard";
 

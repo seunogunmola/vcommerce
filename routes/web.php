@@ -33,6 +33,10 @@ Route::middleware(['auth','role:admin'])->group(
                 // PROFILE 
                 Route::get('/admin/profile','profile')->name('admin.profile');
                 Route::post('/admin/profile','updateProfile')->name('admin.profile.update');
+
+                // PASSWORD UPDATE 
+                Route::get('admin/password','password')->name('admin.password');
+                Route::post('admin/password','updatePassword')->name('admin.password.update');
             }
         );
     }
@@ -42,10 +46,34 @@ Route::middleware(['auth','role:admin'])->group(
 // VENDOR ROUTES 
 Route::middleware(['auth','role:vendor'])->group(
     function(){
-        Route::get('/vendor/dashboard',[VendorController::class,'dashboard'])->name('vendor.dashboard');
+        Route::controller(VendorController::class)->group(
+            function(){
+                 #VENDOR DASHBOARD PAGE
+                Route::get('/vendor/dashboard',[VendorController::class,'dashboard'])->name('vendor.dashboard');
+
+                #VENDOR PROFILE
+                Route::get('/vendor/profile','profile')->name('vendor.profile');
+
+                #UPDATE PROFILE
+                Route::post('/vendor/profile','updateProfile')->name('vendor.profile.update');
+
+                 #VENDOR CHANGE PASSWORD PAGE
+                Route::get('/vendor/password','password')->name('vendor.password');
+                #UPDATE PASSWORD
+                Route::post('/vendor/password','updatePassword')->name('vendor.password.update');
+
+                #VENDOR LOGOUT
+                Route::get('/vendor/logout','logout')->name('vendor.logout');
+            }
+        );
+        
     }
 );
 
 
+// ADMIN LOGIN 
+Route::get('/admin/login',[AdminController::class,'login'])->name('admin.login'); 
 
-Route::get('/admin/login',[AdminController::class,'login'])->name('admin.login');
+
+// VENDOR LOGIN 
+Route::get('/vendor/login',[VendorController::class,'login'])->name('vendor.login');
