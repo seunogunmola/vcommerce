@@ -1,8 +1,12 @@
 <section class="home-slider position-relative mb-30">
         <div class="container">
             <div class="home-slide-cover mt-30">
+                @php
+                    $slider1 = asset('frontend/imgs/slider/slider-1.png');
+                    $slider2 = asset('frontend/imgs/slider/slider-2.png');
+                @endphp
                 <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
-                    <div class="single-hero-slider single-animation-wrap" style="background-image: url({{ asset('frontend/imgs/slider/slider-1.png') }})">
+                    <div class="single-hero-slider single-animation-wrap" style="background-image: url('{{ $slider1 }}')">
                         <div class="slider-content">
                             <h1 class="display-2 mb-40">
                                 Don’t miss amazing<br />
@@ -16,7 +20,7 @@
                         </div>
                     </div>
                     <div class="single-hero-slider single-animation-wrap"
-                        style="background-image: url({{ asset('frontend/imgs/slider/slider-2.png') }})">
+                        style="background-image: url('{{ $slider2 }}')">
                         <div class="slider-content">
                             <h1 class="display-2 mb-40">
                                 Fresh Vegetables<br />

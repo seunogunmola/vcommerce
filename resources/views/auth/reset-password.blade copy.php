@@ -37,25 +37,18 @@
                         <div class="row">
                             <div class="heading_s1">
                                 <img class="border-radius-15" src="assets/imgs/page/reset_password.svg" alt="" />
-                                <h2 class="mb-15 mt-15">Forgot Password</h2>
+                                <h2 class="mb-15 mt-15">Set new password</h2>
                                 <p class="mb-30">Please create a new password that you don’t use on any other site.</p>
                             </div>
-                            <div class="col-lg-12 col-md-8">
+                            <div class="col-lg-6 col-md-8">
                                 <div class="login_wrap widget-taber-content background-white">
                                     <div class="padding_eight_all bg-white">
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                            </div>
-                                        @endif
-                                        <form method="post" action="{{ route('password.email') }}">
-                                            @csrf
+                                        <form method="post">
                                             <div class="form-group">
-                                                <input type="text" required="" name="email" placeholder="Enter your Email" />
+                                                <input type="text" required="" name="email" placeholder="Password *" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" required="" name="email" placeholder="Confirm you password *" />
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-heading btn-block hover-up" name="login">Reset password</button>
@@ -63,6 +56,17 @@
                                         </form>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-6 pl-50">
+                                <h6 class="mb-15">Password must:</h6>
+                                <p>Be between 9 and 64 characters</p>
+                                <p>Include at least tow of the following:</p>
+                                <ol class="list-insider">
+                                    <li>An uppercase character</li>
+                                    <li>A lowercase character</li>
+                                    <li>A number</li>
+                                    <li>A special character</li>
+                                </ol>
                             </div>
                         </div>
                     </div>
