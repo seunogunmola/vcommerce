@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ env('APP_NAME') }} - {{ $title }}</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,13 +19,15 @@
 </head>
 
 <body>
+    @include('frontend.templates.quickview')
+
     @include('frontend.templates.header')
-
+    <main class="main">
     @yield('content')
-
+    </main>
     @include('frontend.templates.footer')
 
-    <div id="preloader-active">
+    <!-- <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="text-center">
@@ -33,7 +35,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Vendor JS-->
     <script src="{{ asset('frontend/js/vendor/modernizr-3.6.0.min.js') }}"></script>
     <script src="{{ asset('frontend/js/vendor/jquery-3.6.0.min.js') }}"></script>

@@ -7,7 +7,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\VendorController;
 
 
-Route::get('/', [FrontendController::class,'index']);
+Route::get('/', [FrontendController::class,'index'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -71,8 +71,10 @@ Route::middleware(['auth','role:vendor'])->group(
 
 
 // ADMIN LOGIN 
+Route::get('/admin',[AdminController::class,'login'])->name('admin.login'); 
 Route::get('/admin/login',[AdminController::class,'login'])->name('admin.login'); 
 
 
 // VENDOR LOGIN 
+Route::get('/vendor',[VendorController::class,'login'])->name('vendor.login');
 Route::get('/vendor/login',[VendorController::class,'login'])->name('vendor.login');
