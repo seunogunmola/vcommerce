@@ -29,6 +29,9 @@
         <link rel="stylesheet" href="{{ asset('backend/css/dark-theme.css') }}" />
         <link rel="stylesheet" href="{{ asset('backend/css/semi-dark.css') }}" />
         <link rel="stylesheet" href="{{ asset('backend/css/header-colors.css') }}" />
+        <link
+            href="{{ asset('backend/plugins/datatable/css/dataTables.bootstrap5.min.css') }}"
+            rel="stylesheet" />
         <title>{{ $title }} - {{ env('APP_NAME') }} {{ env('APP_VERSION') }}</title>
     </head>
 
@@ -113,6 +116,11 @@
         </script>
         <script src="{{ asset('backend/plugins/jquery-knob/excanvas.js') }}"></script>
         <script src="{{ asset('backend/plugins/jquery-knob/jquery.knob.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatable/js/jquery.dataTables.min.js') }} ">
+        </script>
+        <script
+            src="{{ asset('backend/plugins/datatable/js/dataTables.bootstrap5.min.js') }}">
+        </script>
         <script>
             $(function () {
                 $(".knob").knob();
@@ -122,6 +130,67 @@
         <script src="{{ asset('backend/js/index.js') }}"></script>
         <!--app JS-->
         <script src="{{ asset('backend/js/app.js') }}"></script>
+        <script>
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
+
+        </script>
+        <script>
+            $(document).ready(function () {
+                var table = $('#example2').DataTable({
+                    lengthChange: false,
+                    buttons: ['copy', 'excel', 'pdf', 'print']
+                });
+
+                table.buttons().container()
+                    .appendTo('#example2_wrapper .col-md-6:eq(0)');
+            });
+
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script>
+            $(function () {
+                $(document).on('click', '#delete', function (e) {
+                    e.preventDefault();
+                    var link = $(this).attr("href");
+
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "Delete This Data?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = link
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                        }
+                    })
+                });
+
+            });
+        </script>
+        
+        <script>
+            $(document).ready(function(){
+                $('#image').change(function(event){
+                    var reader = new FileReader();
+                    reader.onload = function(event){
+                        $('#showImage').attr('src',event.target.result);
+                    }
+                    reader.readAsDataURL(event.target.files[0]);
+                });
+            });
+        </script>        
     </body>
 
 </html>

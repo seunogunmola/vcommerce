@@ -3,23 +3,43 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 
 
+#SHOW LANDING PAGE
 Route::get('/', [FrontendController::class,'index'])->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+#WRAP AUTHENTICATED PAGES IN MIDDLEWARE
+Route::middleware(['auth'])->group(
+    function(){        
+        Route::controller(UserController::class)->group(function(){
+            // SHOW USER DASHBOARD 
+            Route::get('/dashboard','dashboard')->name('dashboard');            
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+            //SAVE PROFILE EDIT DATA
+            Route::post('/profile/{id}','updateUserProfile')->name('user.profile.update');
 
-require __DIR__.'/auth.php';
+            //UPDATE USER PASSWORD
+            Route::post('/password/{id}','updateUserPassword')->name('user.password.update');
+
+            // LOGOUT
+            Route::get('/user/logout','logout')->name('user.logout');    
+
+        });
+        
+    }
+);
+
+// ADMIN LOGIN 
+Route::get('/admin',[AdminController::class,'login'])->name('admin.login'); 
+Route::get('/admin/login',[AdminController::class,'login'])->name('admin.login'); 
+
+// VENDOR LOGIN 
+Route::get('/vendor',[VendorController::class,'login'])->name('vendor.login');
+Route::get('/vendor/login',[VendorController::class,'login'])->name('vendor.login');
 
 //MIDDLE WARE TO PREVENT USERS WITHOUT ADMIN ROLE
 Route::middleware(['auth','role:admin'])->group(
@@ -27,6 +47,7 @@ Route::middleware(['auth','role:admin'])->group(
         // ADMIN ROUTES 
         Route::controller(AdminController::class)->group(
             function(){
+                // SHOW ADMIN DASHBOARD 
                 Route::get('/admin/dashboard','dashboard')->name('admin.dashboard');
                 Route::get('/admin/logout','logout')->name('admin.logout');
                 // PROFILE 
@@ -36,6 +57,24 @@ Route::middleware(['auth','role:admin'])->group(
                 // PASSWORD UPDATE 
                 Route::get('admin/password','password')->name('admin.password');
                 Route::post('admin/password','updatePassword')->name('admin.password.update');
+
+                // BRANDS 
+                Route::controller(BrandController::class)->group(
+                    function(){
+                        // ALL BRANDS 
+                        Route::get('/admin/brands','index')->name('admin.brand.all');
+                        // SHOW BRAND CREATION FORM 
+                        Route::get('/admin/brands/create','create')->name('admin.brand.create');
+                        // STORE BRAND CREATION INFORMATION 
+                        Route::post('/admin/brands/store','store')->name('admin.brand.store');
+                        // SHOW BRAND EDITING FORM 
+                        Route::get('/admin/brands/edit/{id}','edit')->name('admin.brand.edit');
+                        // STORE BRAND EDITING INFORMATION 
+                        Route::post('/admin/brands/update/{id}','update')->name('admin.brand.update');
+                        // DELETE BRAND
+                        Route::get('/admin/brands/delete/{id}','delete')->name('admin.brand.delete');
+                    }
+                );
             }
         );
     }
@@ -70,11 +109,4 @@ Route::middleware(['auth','role:vendor'])->group(
 );
 
 
-// ADMIN LOGIN 
-Route::get('/admin',[AdminController::class,'login'])->name('admin.login'); 
-Route::get('/admin/login',[AdminController::class,'login'])->name('admin.login'); 
-
-
-// VENDOR LOGIN 
-Route::get('/vendor',[VendorController::class,'login'])->name('vendor.login');
-Route::get('/vendor/login',[VendorController::class,'login'])->name('vendor.login');
+require __DIR__.'/auth.php';

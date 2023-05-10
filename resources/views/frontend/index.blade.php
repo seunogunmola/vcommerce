@@ -1,5 +1,7 @@
 @extends('frontend.main')
 
+@section('title',$title)
+
 @section('pageTitle',$title)
 
 @section('content')
